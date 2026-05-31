@@ -30,4 +30,4 @@ Open 00-START-HERE/Welcome.md
 
 ## Status
 
-🚧 Actively building — contributions welcome
+🚧 Actively writing — contributions welcome
