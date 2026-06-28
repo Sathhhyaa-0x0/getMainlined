@@ -1,110 +1,135 @@
+---
+title: 02-Subsystems
+---
 # Subsystems
 
-> "You don't contribute to the kernel.
-> You contribute to a subsystem.
+> "You don't contribute to Linux.  
+> You contribute to a subsystem.  
 > Pick one. Go deep."
 
 ---
 
 ## What is a subsystem?
 
-A subsystem is a major folder in the kernel repo.
-Each one is an independent project with its own
-maintainer, mailing list, and contributor community.
+A subsystem is a major area of responsibility  
+inside the Linux kernel.
+
+Most subsystems have:
+
+- maintainers
+    
+- mailing lists
+    
+- review culture
+    
+- coding conventions
+    
+- long-term contributors
+    
+
+Learning Linux usually means learning one  
+subsystem deeply — not the whole tree.
 
 ---
 
-## 🟢 Beginner Friendly
+## 🟢 Good Starting Points
 
-Best place to start. Low barrier to entry.
-Good for first patches.
+Readable. Lower context requirement.  
+Good places to learn kernel workflow.
 
-| Subsystem | What it does |
-|-----------|-------------|
-| [[init/_index\|init/]] | First code after boot |
-| [[Documentation/_index\|Documentation/]] | Official docs — best first patch target |
-| [[samples/_index\|samples/]] | Example kernel code |
-| [[scripts/_index\|scripts/]] | Build and analysis tools |
-| [[tools/_index\|tools/]] | Userspace developer tools |
-
----
-
-## 🟡 Intermediate
-
-Understand basic kernel concepts first.
-Processes, memory, syscalls minimum.
-
-| Subsystem | What it does |
-|-----------|-------------|
-| [[kernel/_index\|kernel/]] | Core — scheduling, signals, timers |
-| [[fs/_index\|fs/]] | Filesystem layer |
-| [[ipc/_index\|ipc/]] | Inter-process communication |
-| [[security/_index\|security/]] | SELinux, AppArmor, LSM |
-| [[crypto/_index\|crypto/]] | Encryption primitives |
-| [[block/_index\|block/]] | Block device layer |
-| [[lib/_index\|lib/]] | Shared utilities |
+|Subsystem|Why start here|
+|---|---|
+|[[init/_index\|init/]]|Learn how Linux starts|
+|[[Documentation/_index\|Documentation/]]|Best place for first contribution|
+|[[samples/_index\|samples/]]|Small example kernel code|
+|[[scripts/_index\|scripts/]]|Build and helper tooling|
+|[[tools/_index\|tools/]]|Userspace utilities around kernel|
 
 ---
 
-## 🔴 Advanced
+## 🟡 Build Core Concepts First
 
-Serious study needed before contributing.
+Learn process model, memory, and kernel basics.
 
-| Subsystem | What it does |
-|-----------|-------------|
-| [[net/_index\|net/]] | TCP/IP stack, networking |
-| [[drivers/_index\|drivers/]] | Hardware drivers |
-| [[arch/_index\|arch/]] | CPU architecture specific |
-| [[sound/_index\|sound/]] | Audio subsystems |
-| [[virt/_index\|virt/]] | Virtualization, KVM |
-| [[io_uring/_index\|io_uring/]] | Modern async I/O |
-
----
-
-## ⚫ Wizard Territory
-
-Don't start here.
-Even experienced developers find these hard.
-
-| Subsystem | What it does |
-|-----------|-------------|
-| [[mm/_index\|mm/]] | Memory management |
-| [[arch/_index\|arch/]] | Deep architecture internals |
+|Subsystem|Focus|
+|---|---|
+|[[kernel/_index\|kernel/]]|Scheduling, timers, signals|
+|[[fs/_index\|fs/]]|Filesystems|
+|[[ipc/_index\|ipc/]]|Process communication|
+|[[security/_index\|security/]]|Security frameworks|
+|[[block/_index\|block/]]|Storage layer|
+|[[lib/_index\|lib/]]|Shared utilities|
+|[[crypto/_index\|crypto/]]|Cryptographic infrastructure|
 
 ---
 
-## 🆕 Modern — Less Documented
+## 🔴 Deep Systems Territory
 
-Newer additions. Less existing documentation.
-High opportunity for contributors.
+Subsystem interactions become heavier here.
 
-| Subsystem | What it does |
-|-----------|-------------|
-| [[rust/_index\|rust/]] | Rust support — growing fast |
-| [[io_uring/_index\|io_uring/]] | Modern async I/O |
+|Subsystem|Focus|
+|---|---|
+|[[net/_index\|net/]]|Networking stack|
+|[[drivers/_index\|drivers/]]|Hardware support|
+|[[sound/_index\|sound/]]|Audio stack|
+|[[virt/_index\|virt/]]|Virtualization|
+|[[rust/_index\|rust/]]|Rust integration|
 
 ---
 
-## Don't know which to pick?
+## ⚫ Internals
 
+These reward patience and repeated reading.
 
-Want first patch fast? → [[Documentation/_index|Documentation/]]
+|Subsystem|Focus|
+|---|---|
+|[[mm/_index\|mm/]]|Memory management|
+|[[arch/_index\|arch/]]|Architecture internals|
+|[[io_uring/_index\|io_uring/]]|High-performance async I/O|
 
-Interested in how files work? → [[fs/_index|fs/]]
+---
 
-Interested in networking? → [[net/_index|net/]]
+## If you don't know where to begin
 
-Interested in hardware? → [[drivers/_index|drivers/]]
+Want your first patch?  
+→ [[Documentation/_index|Documentation]]
 
-Interested in Rust in kernel? → [[rust/_index|rust/]]
+Want to understand startup?  
+→ [[init/_index|init]]
 
-Just want a map first? → [[01-Root-Overview/_index|Back to Root Overview]]
+Interested in filesystems?  
+→ [[fs/_index|fs]]
 
+Interested in hardware?  
+→ [[drivers/_index|drivers]]
+
+Interested in networking?  
+→ [[net/_index|net]]
+
+Want a broad map first?  
+→ [[01-Root-Overview/_index|Root Overview]]
+
+---
+
+## Mental model
+
+Subsystems are not chapters.
+
+They are neighborhoods.
+
+You do not finish one and move on.
+
+You revisit them repeatedly and gradually  
+build a map of how they connect.
 
 ---
 
 ## Next
 
-Pick a subsystem above and dive in.
-Or follow a structured path:
-→ [[05-Contributor-Paths/_index|Contributor Paths]]
+Pick one subsystem.
+
+Read its index.
+
+Open one file.
+
+Follow one symbol.

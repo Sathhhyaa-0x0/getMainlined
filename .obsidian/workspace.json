@@ -1,0 +1,231 @@
+{
+  "main": {
+    "id": "2bf624a4e7f1ceaf",
+    "type": "split",
+    "children": [
+      {
+        "id": "214ab1934adcadbd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5685b4c2467e7a9a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "08-Maps/_index.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "_index"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "483fe4cac2f4e808",
+    "type": "split",
+    "children": [
+      {
+        "id": "e56f78ab1cc8f89b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b0fb2bcf491ac82c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "byCreatedTimeReverse",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "cd7dde379eec9c65",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "6a1bb4d6468f0e6b",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "b7c553813799ba83",
+    "type": "split",
+    "children": [
+      {
+        "id": "43016418bc112782",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5134fd22e0a3c13d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "02-Subsystems/init/main.c.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for main.c"
+            }
+          },
+          {
+            "id": "252814987b624069",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "02-Subsystems/init/main.c.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from main.c"
+            }
+          },
+          {
+            "id": "1a8932054d4d5211",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "b45d78a6636d21bb",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "15de645fcbaf2fc1",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "02-Subsystems/init/main.c.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of main.c"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "5685b4c2467e7a9a",
+  "lastOpenFiles": [
+    "07-Meta/_index.md",
+    "08-Maps/_index.md",
+    "00-START-HERE/Welcome.md",
+    "08-Maps",
+    "01-Root-Overview/Root-Overview.md",
+    "01-Root-Overview/_index.md",
+    "00-START-HERE/_index.md",
+    "02-Subsystems/_index.md",
+    "04-Execution-Journeys/_index.md",
+    "03-Key-Files/_index.md",
+    "02-Subsystems/init/main.c.md",
+    "02-Subsystems/init/_index.md",
+    "02-Subsystems/init/init_task.c.md",
+    "02-Subsystems/init/calibrate.c.md",
+    "index.md",
+    "02-Subsystems/init/initramfs.c.md",
+    "02-Subsystems/init/do_mounts.c.md",
+    "06-Concepts/_index.md",
+    "05-Contributor-Paths/_index.md",
+    "02-Subsystems/init",
+    "03-Key-Files/Kbuild.md",
+    "Root-Overview.md",
+    "00-START-HERE.md",
+    "07-Meta",
+    "06-Concepts",
+    "Welcome.md",
+    "05-Contributor-Paths",
+    "04-Execution-Journeys",
+    "03-Key-Files",
+    "02-Subsystems",
+    "01-Root-Overview",
+    "00-START-HERE"
+  ]
+}

@@ -1,3 +1,6 @@
+---
+title: main.c
+---
 # main.c
 
 🟢 Beginner Friendly — but deeply important
@@ -5,139 +8,337 @@
 Part of [[_index|init/]]
 
 ---
-
 ## What is this file?
 
-main.c is the entry point of the Linux kernel.
+main.c contains the generic startup path of  
+the Linux kernel.
 
-After the bootloader loads the kernel into memory
-and hands over control, execution eventually reaches
-start_kernel() — which lives in this file.
+Execution begins earlier in architecture-  
+specific startup code, but eventually control  
+reaches start_kernel() — which lives here.
 
-Everything starts here. Every subsystem, every
-driver, every data structure the kernel needs
-to function — all initialized from this one function.
+This file coordinates the transition from:
 
-If the kernel were a human body, start_kernel()
-is the moment the heart beats for the first time.
+kernel loaded  
+→ kernel initializing  
+→ kernel running
+
+Many core subsystems begin their initialization  
+sequence from this file.
+
+If you want one place that reveals how Linux  
+wakes up — this is it.
 
 ---
+## Execution Flow
 
+Firmware  
+↓  
+Bootloader  
+↓  
+Architecture startup  
+↓  
+start_kernel()  
+↓  
+Subsystem initialization  
+↓  
+rest_init()  
+↓  
+kernel_init()  
+↓  
+/sbin/init  
+↓  
+Userspace
+
+This file sits at the center of that transition.
+
+---
 ## Why it matters
 
-This is the single most important file to read
-as a beginner. Not because it's complex —
-but because it gives you the complete picture
-of how Linux wakes up.
+This is one of the most valuable files a beginner  
+can read.
 
-Reading start_kernel() top to bottom tells you
-every major subsystem that exists and roughly
-what order they initialize. It's an index of
-the entire kernel disguised as a function.
+Not because it contains the hardest code.
 
----
+Because it reveals the structure of Linux.
 
-## Key function
+Reading start_kernel() from top to bottom shows:
 
-start_kernel()
+- which subsystems exist
+    
+- roughly when they initialize
+    
+- what depends on what
+    
+- where to go next
+    
 
-This is what you're here for. It's a long
-function that calls initialization routines
-one by one. Some examples of what it calls:
-
-setup_arch() — architecture specific setup
-mm_init() — memory management initialization
-sched_init() — scheduler initialization
-vfs_caches_init() — filesystem cache setup
-rest_init() — starts the first real process
-
-Each of those calls leads into a different
-subsystem. Follow any one of them and you're
-reading a different part of the kernel.
+It is almost an index of the entire kernel  
+hidden inside a function.
 
 ---
+## Ignore for now
 
+Do not get stuck on:
+
+- compiler attributes
+    
+- visibility modifiers
+    
+- sanitizer annotations
+    
+- stack protection macros
+    
+- architecture-specific details
+    
+
+Focus on:
+
+function names  
+call order  
+subsystem boundaries
+
+---
+## Key function — start_kernel()
+
+```c
+asmlinkage __visible __init
+__no_sanitize_address
+__noreturn
+__no_stack_protector
+
+void start_kernel(void)
+```
+
+Some attributes worth knowing:
+
+__init  
+→ boot-only code section; memory can later be reused
+
+__noreturn  
+→ execution never returns to the caller
+
+The others exist mostly to control compiler,  
+linker, and instrumentation behavior.
+
+Do not worry about them yet.
+
+Inside, startup happens step by step:
+
+```c
+setup_arch(&command_line);
+
+mm_core_init_early();
+
+sched_init();
+
+vfs_caches_init();
+
+rest_init();
+```
+
+Each call hands temporary control to another  
+subsystem.
+
+Follow any one of them and you leave init/  
+and begin exploring a different part of Linux.
+
+---
+## The order is not random
+
+Early startup follows dependency order.
+
+Example:
+
+```c
+boot_cpu_init();
+
+page_address_init();
+
+setup_arch(&command_line);
+
+mm_core_init_early();
+```
+
+Architecture setup happens before memory.
+
+Memory must exist before scheduling.
+
+Scheduling must exist before processes.
+
+Initialization here is not sequential because  
+it looks nice — it is sequential because later  
+systems depend on earlier ones.
+
+---
 ## rest_init() — the handoff
 
-At the very end of start_kernel() comes
-rest_init(). This is where the kernel creates
-the first real userspace process — PID 1.
+Near the end of startup comes:
 
-That process becomes systemd or /sbin/init
-on your running system. The kernel's job after
-this point shifts from initialization to
-managing processes that are already running.
+```c
+static noinline void __ref
+__noreturn rest_init(void)
+```
+
+This function marks a transition.
+
+Until this point:
+
+the kernel is building itself.
+
+After this point:
+
+the kernel begins managing execution.
+
+Inside rest_init(), the kernel creates the task  
+that eventually becomes PID 1.
+
+That task later reaches kernel_init().
+
+A small comment nearby explains an important  
+ordering constraint:
+
+init must receive PID 1 before worker threads  
+begin appearing.
+
+Startup ordering in Linux is intentional.
 
 ---
+## kernel_init — what actually reaches userspace
 
+A detail many beginners miss:
+
+start_kernel() never directly launches  
+userspace.
+
+Instead:
+
+start_kernel()  
+→ rest_init()  
+→ kernel_init()
+
+kernel_init() eventually tries known init paths:
+
+```c
+/sbin/init
+/etc/init
+/bin/init
+/bin/sh
+```
+
+If none succeed:
+
+the kernel panics.
+
+That infamous:
+
+"No working init found"
+
+message comes from this path.
+
+---
 ## How to read this file
 
-Don't try to understand every line.
+Do not try to understand every line.
 
-First pass — just read the function names
-inside start_kernel(). Each name tells you
-what subsystem is initializing. You're building
-a mental map, not memorizing code.
+First pass:
 
-Second pass — pick one function call that
-interests you and follow it into its subsystem.
-That's how kernel reading works. You pull
-one thread and follow it.
+Read only function names.
+
+Build a map.
+
+Second pass:
+
+Pick one function.
+
+Follow it.
+
+Read until confused.
+
+Return.
+
+Repeat.
+
+Kernel reading is exploration —  
+not linear study.
 
 ---
+## Mental model
 
+start_kernel() does not perform kernel work.
+
+It coordinates startup.
+
+Each function temporarily hands control to  
+another subsystem, waits for preparation to  
+finish, and moves forward.
+
+Reading this file is less about understanding  
+boot and more about discovering who exists  
+inside Linux.
+
+---
 ## Contributor angle
 
-Good for first contribution? Carefully yes.
+Good first contribution?
 
-main.c is heavily reviewed. Every line
-has been touched by Linus himself. Standards
-are extremely high here.
+Carefully yes.
 
-Best contribution type → comment improvements,
-documentation fixes, nothing structural.
+This file receives heavy review because startup  
+logic affects the entire kernel.
 
-Don't try to change start_kernel() logic
-as a first patch. You will get rejected
-and it will hurt. 😄
+Good contribution types:
+
+→ documentation  
+→ comments  
+→ cleanup
+
+Avoid changing initialization ordering until  
+you understand subsystem dependencies.
 
 ---
-
 ## Connects to
 
-[[02-Subsystems/mm/_index|mm/]] — mm_init() is
-called from start_kernel(). Memory management
-wakes up here.
+[[02-Subsystems/mm/_index|mm/]]  
+Memory initialization.
 
-[[02-Subsystems/kernel/_index|kernel/]] — sched_init()
-starts the scheduler from here.
+[[02-Subsystems/kernel/_index|kernel/]]  
+Scheduler startup.
 
-[[02-Subsystems/fs/_index|fs/]] — vfs_caches_init()
-initializes the filesystem layer from here.
+[[02-Subsystems/fs/_index|fs/]]  
+Filesystem initialization.
 
-[[init_task.c]] — the first task structure that
-exists before start_kernel() even runs.
+[[init_task.c]]  
+Early task structures.
 
-[[04-Execution-Journeys/_index|Boot Journey]] —
-see the full sequence start_kernel() triggers.
+[[calibrate.c]]  
+Boot-time CPU calibration.
+
+[[04-Execution-Journeys/_index|Boot Journey]]
 
 ---
-
 ## Beginner confusion this clears
 
-Many beginners think the kernel just "starts."
-main.c shows that startup is a carefully
-ordered sequence of subsystem initializations.
+The kernel does not suddenly "start."
 
-Each subsystem depends on the one before it.
-Memory must exist before the scheduler.
-The scheduler must exist before processes.
-Processes must exist before filesystems mount.
+Linux becomes operational through a deliberate  
+sequence of initialization steps.
 
-That order is visible right here in
-start_kernel() if you read it carefully.
+Subsystems prepare other subsystems.
+
+Order matters.
+
+That order becomes visible here.
 
 ---
+If this felt manageable:
 
-→ [[init_task.c]] — read this next
+→ [[init_task.c]]  
+→ sched_init()  
+→ mm_core_init_early()
+
+If this felt overwhelming:
+
+→ [[04-Execution-Journeys/_index|Boot Journey]]
+
 → [[_index|Back to init/]]

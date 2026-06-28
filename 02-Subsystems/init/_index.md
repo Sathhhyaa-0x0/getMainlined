@@ -1,155 +1,171 @@
+---
+title: init
+---
 # init/
 
-Link: https://github.com/torvalds/linux/tree/master/init
+Link: [https://github.com/torvalds/linux/tree/master/init](https://github.com/torvalds/linux/tree/master/init)
 
 🟢 Beginner Friendly
 
-This is where the kernel begins. After the bootloader
-hands control to the kernel, init/ is the first
-directory that matters.
+This subsystem contains the generic initialization  
+path of the Linux kernel.
 
-start_kernel() lives here. Every subsystem
-initialization, every data structure setup,
-every driver probe — all triggered from this
-single function.
+CPU execution begins earlier in architecture-specific  
+startup code, but eventually control reaches init/  
+where the kernel begins building the world it needs  
+to run.
 
-If you want to understand how Linux goes from
-"just loaded into memory" to "fully running OS"
-— this is your starting point.
+Memory initialization.  
+Scheduler startup.  
+Filesystem preparation.  
+Process creation.
+
+If you want to understand how Linux goes from  
+"loaded into memory" to "running operating system"  
+— start here.
+
+---
+## What this subsystem does
+
+Bootloader  
+↓  
+Architecture startup  
+↓  
+start_kernel()  
+↓  
+Subsystem initialization  
+↓  
+rest_init()  
+↓  
+kernel_init()  
+↓  
+Userspace
+
+This directory coordinates that transition.
+
+---
+## Read in this order
+
+### Tier 0 — Orientation
+
+Read first. Build a mental map.
+
+→ [[04-Execution-Journeys/_index|Boot Journey]]
 
 ---
 
-## Key Files
+### Tier 1 — Landmark files
 
-These are the files worth reading deeply.
-Each has its own dedicated note.
+Read deeply.
 
-[[main.c]] — The most important file in the entire
-kernel. start_kernel() lives here. Every subsystem
-boots from this single function. Read this first.
+[[main.c]]  
+The most important file in init/.  
+Contains start_kernel().
 
-[[init_task.c]] — Defines the very first task the
-kernel creates. PID 0. The ancestor of every single
-process that will ever run on the system.
-
-[[do_mounts.c]] — Handles mounting the root
-filesystem. The moment Linux can actually read
-your hard drive for the first time.
-
-[[initramfs.c]] — Loads and unpacks the initramfs
-image. The temporary filesystem loaded into memory
-before the real root filesystem is mounted.
-
-[[calibrate.c]] — Measures CPU speed at boot
-by counting how many loops fit in a known
-time window. Simple and very readable.
-Good first file for a beginner to open.
-
-[[version.c]] — Generates the kernel version
-string you see when you run uname -r.
-Simplest file in init/. Good starting read.
+[[init_task.c]]  
+Defines the earliest task structures.
 
 ---
 
-## All Other Files
+### Tier 2 — Core implementation
 
-Every file explained so nothing is a mystery.
+Understand mechanisms.
 
-[[do_mounts.h]] — Header file for do_mounts.c.
-Declares the functions and structures used
-across the mount related files.
+[[do_mounts.c]]  
+Mounting the root filesystem.
 
-[[do_mounts_initrd.c]] — Handles the legacy initrd
-mounting path. Older method before initramfs
-existed. Mostly maintained for compatibility.
+[[initramfs.c]]  
+Loading temporary boot filesystem.
 
-[[do_mounts_rd.c]] — Handles RAM disk mounting
-specifically. Used when root filesystem lives
-on a RAM disk.
-
-[[noinitramfs.c]] — Fallback used when no
-initramfs is provided at boot. Minimal stub
-that handles the no initramfs case cleanly.
-
-[[initramfs_internal.h]] — Internal header for
-initramfs. Not meant to be used outside init/.
-Declares internal structures.
-
-[[initramfs_test.c]] — Unit tests for initramfs
-unpacking logic. Good example of how kernel
-unit tests are written.
-
-[[version-timestamp.c]] — Records the timestamp
-of when the kernel was built. Used in the
-version string alongside version.c.
-
-[[Kconfig]] — Configuration options for init/.
-Controls what features get compiled in.
-Read this to understand what is optional.
-
-[[Makefile]] — Build rules for init/.
-Tells the build system which files to compile
-and under what conditions.
-
-[[.gitignore]] — Lists files that git should
-ignore in this directory. Not kernel code —
-just build system housekeeping.
-
-[[.kunitconfig]] — Configuration for KUnit
-tests in init/. Used when running kernel
-unit tests locally.
+[[calibrate.c]]  
+Boot-time CPU calibration.
 
 ---
 
-## Why it exists
+### Tier 3 — Supporting files
 
-The kernel needs a defined entry point after boot.
-init/ provides that. Without it there's no starting
-point — just code sitting in memory with nothing
-telling it where to begin.
+Reference when needed.
+
+[[version.c]]  
+[[do_mounts.h]]  
+[[do_mounts_initrd.c]]  
+[[do_mounts_rd.c]]  
+[[noinitramfs.c]]  
+[[initramfs_internal.h]]  
+[[initramfs_test.c]]  
+[[version-timestamp.c]]  
+[[Kconfig]]  
+[[Makefile]]  
+[[.gitignore]]  
+[[.kunitconfig]]
 
 ---
 
+## Ignore for now
+
+Do not worry about:
+
+- compiler attributes
+    
+- linker sections
+    
+- boot assembly
+    
+- build system details
+    
+- architecture-specific branches
+    
+
+Focus on understanding the order of initialization.
+
+---
+## Mental model
+
+init/ does not perform one job.
+
+It coordinates the transition from "kernel exists"  
+to "kernel can manage the system".
+
+Most files here prepare another subsystem and hand  
+control forward.
+
+---
 ## Contributor angle
 
-Good for beginners? Yes — but careful.
-init/ is small and clean which means
-maintainers have high standards here.
+Good first contributions:
 
-Best contribution type → documentation
-improvements, comment clarifications,
-cleanup patches.
+→ documentation  
+→ comments  
+→ cleanup  
+→ KUnit tests
 
-Mailing list → linux-kernel@vger.kernel.org
+Avoid changing startup ordering until you understand  
+dependency relationships.
 
 ---
-
 ## Connects to
 
-[[02-Subsystems/mm/_index|mm/]] — memory management
-initializes during boot sequence.
+[[02-Subsystems/mm/_index|mm/]]  
+Memory setup.
 
-[[02-Subsystems/kernel/_index|kernel/]] — core kernel
-subsystems start here.
+[[02-Subsystems/kernel/_index|kernel/]]  
+Scheduler and process management.
 
-[[02-Subsystems/fs/_index|fs/]] — root filesystem
-gets mounted from init/.
+[[02-Subsystems/fs/_index|fs/]]  
+Root filesystem startup.
 
 [[04-Execution-Journeys/_index|Execution Journeys]]
-— see the full boot journey.
 
 ---
-
 ## Beginner confusion this clears
 
-init/ is NOT the init process (PID 1).
-That's /sbin/init or systemd in userspace.
+init/ is not userspace init.
 
-init/ in the kernel repo is the kernel's
-own initialization code. Two completely
-different things sharing a confusing name.
+This directory contains kernel initialization code.
+
+PID 1 appears later.
 
 ---
 
-→ [[main.c]] — read this next
+→ [[main.c]] — Start here  
 → [[02-Subsystems/_index|Back to Subsystems]]

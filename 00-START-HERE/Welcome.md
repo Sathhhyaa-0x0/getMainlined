@@ -1,6 +1,6 @@
 # Welcome to getMainlined
 
-> "Your path from zero to first kernel patch."
+"Your path from zero to first kernel patch."
 
 ---
 

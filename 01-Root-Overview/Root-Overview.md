@@ -1,8 +1,8 @@
 # Linux Kernel Repo — Root Overview
 
-> "You opened torvalds/linux. 
-> Here's what you're looking at."
-> Link: https://github.com/torvalds/linux/tree/master
+ "You opened torvalds/linux. 
+ Here's what you're looking at."
+ Link: https://github.com/torvalds/linux/tree/master
 
 ---
 ## What is this repo?
@@ -122,7 +122,17 @@ You don't contribute to "the kernel." You contribute to a subsystem. Pick one. G
 ## What connects to what
 
 
-User types: open("file.txt") ↓ [[02-Subsystems/kernel/_index|kernel/]] (syscall handling) ↓ [[02-Subsystems/fs/_index|fs/]] (VFS layer) ↓ [[02-Subsystems/block/_index|block/]] (block device layer) ↓ [[02-Subsystems/drivers/_index|drivers/]] (actual hardware driver) ↓ Your SSD
+User types: open("file.txt")
+↓
+[[02-Subsystems/kernel/_index|kernel/]] (syscall handling) 
+↓
+[[02-Subsystems/fs/_index|fs/]] (VFS layer) 
+↓
+[[02-Subsystems/block/_index|block/]] (block device layer) 
+↓
+[[02-Subsystems/drivers/_index|drivers/]] (actual hardware driver) 
+↓
+Your SSD
 
 
 This is a preview of what Execution Journeys

@@ -1,3 +1,6 @@
+---
+title: 00-Start Here
+---
 # Start Here
 
 New to getmainlined? Read in this order.
