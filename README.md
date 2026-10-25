@@ -30,4 +30,4 @@ Open 00-START-HERE/Welcome.md
 
 ## Status
 
-🚧 Actively writing
+🚧 Actively writing and Will host this live web soon
